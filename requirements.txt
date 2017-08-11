@@ -1,0 +1,4 @@
+ffmpeg-python==0.1.6
+future==0.16.0
+mutagen==1.38
+pymediainfo==2.1.9

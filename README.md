@@ -1,4 +1,3 @@
-# mls
-# Title: Media LS
+## Title: Media LS
 #
-# Implement 'ls' functionality, but with added hooks/flags/options for media files
+#### Implement 'ls' functionality, but with added hooks/flags/options for media files

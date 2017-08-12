@@ -39,7 +39,7 @@ def meta_tags(my_file):
     print(json.dumps(parsed, indent=4))
 
 
-def humanize_bytes(bytes, precision=1):
+def humanize_bytes(file_bytes, precision=1):
     """Return a humanized string representation of a number of bytes.
 
     Cribbed from https://github.com/ActiveState/code
@@ -69,12 +69,12 @@ def humanize_bytes(bytes, precision=1):
         (1 << 10, 'kB'),
         (1, 'bytes')
     )
-    if bytes == 1:
+    if file_bytes == 1:
         return '1 byte'
     for factor, suffix in abbrevs:
-        if bytes >= factor:
+        if file_bytes >= factor:
             break
-    return '%.*f %s' % (precision, bytes / factor, suffix)
+    return '%.*f %s' % (precision, file_bytes / factor, suffix)
 
 
 if __name__ == '__main__':

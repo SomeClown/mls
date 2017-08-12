@@ -47,7 +47,7 @@ def file_info(directory):
         file_list = os.listdir('.')
     for file in file_list:
         try:
-            info = os.stat(file)
+            info = os.stat(directory + '/' + file)
         except FileNotFoundError as e:
             print(e)
             break
@@ -63,11 +63,10 @@ def file_info(directory):
             my_type = 'Directory'
 
         print('{:15}'.format(my_mode) + '{:12}'.format(my_user) + '{:10}'.format(my_group)
-              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(file)
+              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(directory + '/' + file)
               + '{:>20}'.format(my_type))
 
 
-@click.command()
 def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)
     foo = media_info.to_json()
@@ -113,7 +112,6 @@ def humanize_bytes(file_bytes, precision=1):
     return '%.*f %s' % (precision, file_bytes / factor, suffix)
 
 cli.add_command(file_info, 'list')
-cli.add_command(meta_tags, 'meta_tags')
 
 if __name__ == '__main__':
     try:

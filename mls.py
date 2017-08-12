@@ -11,9 +11,15 @@ __email__ = "teren@packetqueue.net"
 
 
 def main():
-    file_list = os.listdir('/Users/brysont')
-    my_file = "test.m4a"
+    file_info()
+
+
+def file_info():
+    file_list = os.listdir('.')
     print(file_list)
+
+
+def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)
     foo = media_info.to_json()
     parsed = json.loads(foo)

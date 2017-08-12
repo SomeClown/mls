@@ -17,8 +17,8 @@ def main():
 def file_info():
     file_list = os.listdir('.')
     for file in file_list:
-        print(file)
-
+        info = os.stat(file)
+        print(file + '         ' + str(info.st_mtime))
 
 def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)

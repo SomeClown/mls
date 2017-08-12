@@ -4,34 +4,70 @@ import os
 import pwd
 import grp
 import stat
-from pymediainfo import MediaInfo
+import magic
 import json
 import time
+from pymediainfo import MediaInfo
+import click
 
 __author__ = "SomeClown"
 __license__ = "MIT"
 __maintainer__ = "Teren Bryson"
 __email__ = "teren@packetqueue.net"
 
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+EPILOG = 'Media-specific unix ls command'
 
-def main():
-    file_info()
+color_black2 = "\033[1;30m{0}\033[00m"
+color_red2_on = "\033[01;31m"
+color_red2_off = "\33[00m"
+color_green2 = "\033[1;32m{0}\033[00m"
+color_yellow2 = "\033[1;33m{0}\033[00m"
+color_blue2 = "\033[1;34m{0}\033[00m"
+color_purple2 = "\033[1;35m{0}\033[00m"
+color_cyan2 = "\033[1;36m{0}\033[00m"
+color_white2 = "\033[1;37m{0}\033[00m"
 
 
-def file_info():
-    file_list = os.listdir('.')
+@click.group(epilog=EPILOG, context_settings=CONTEXT_SETTINGS)
+def cli():
+    """
+    Still building, not ready for public use
+    :return: 
+    """
+    pass
+
+
+@click.command()
+@click.argument('directory')
+def file_info(directory):
+    if directory:
+        file_list = os.listdir(directory)
+    else:
+        file_list = os.listdir('.')
     for file in file_list:
-        info = os.stat(file)
+        try:
+            info = os.stat(file)
+        except FileNotFoundError as e:
+            print(e)
+            break
         my_size = humanize_bytes(info.st_size)
         my_time = time.strftime('%b %d, %Y %H:%M', time.localtime(info.st_mtime))
         my_mode = stat.filemode(info.st_mode)
         my_user = pwd.getpwuid(info.st_uid)[0]
         my_group = grp.getgrgid(info.st_gid)[0]
+        mime_type = magic.Magic(mime=True)
+        try:
+            my_type = mime_type.from_file(file)
+        except IsADirectoryError:
+            my_type = 'Directory'
 
         print('{:15}'.format(my_mode) + '{:12}'.format(my_user) + '{:10}'.format(my_group)
-              + '{:15}'.format(my_size) + '{:20}'.format(my_time) + '{:10}'.format(file))
+              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(file)
+              + '{:>20}'.format(my_type))
 
 
+@click.command()
 def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)
     foo = media_info.to_json()
@@ -76,10 +112,12 @@ def humanize_bytes(file_bytes, precision=1):
             break
     return '%.*f %s' % (precision, file_bytes / factor, suffix)
 
+cli.add_command(file_info, 'list')
+cli.add_command(meta_tags, 'meta_tags')
 
 if __name__ == '__main__':
     try:
-        main()
+        cli()
     except TypeError as err:
         print('Not sure what shit the bed (you probably fucked up), but the error is below:')
         print(err)

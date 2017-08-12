@@ -21,7 +21,7 @@ def file_info():
     for file in file_list:
         info = os.stat(file)
         counter += 1
-        my_time = time.strftime('%Y-%m-%d %H:%M', time.localtime(info.st_mtime))
+        my_time = time.strftime('%b %d, %Y %H:%M', time.localtime(info.st_mtime))
         print(str(counter) + '.  ' + str(my_time) + '  ' + file)
 
 def meta_tags(my_file):

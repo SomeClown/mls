@@ -21,7 +21,7 @@ def file_info():
         info = os.stat(file)
         counter += 1
         my_time = time.strftime('%b %d, %Y %H:%M', time.localtime(info.st_mtime))
-        print(str(counter) + '.  ' + str(my_time) + '  ' + file)
+        print(str(counter) + '.  ' + my_time + '  ' + file)
 
 def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)

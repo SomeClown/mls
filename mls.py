@@ -14,7 +14,6 @@ __email__ = "teren@packetqueue.net"
 def main():
     file_info()
 
-
 def file_info():
     file_list = os.listdir('.')
     counter = 0

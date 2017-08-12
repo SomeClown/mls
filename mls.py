@@ -3,6 +3,7 @@
 import os
 from pymediainfo import MediaInfo
 import json
+import time
 
 __author__ = "SomeClown"
 __license__ = "MIT"
@@ -16,9 +17,12 @@ def main():
 
 def file_info():
     file_list = os.listdir('.')
+    counter = 0
     for file in file_list:
         info = os.stat(file)
-        print(file + '         ' + str(info.st_mtime))
+        counter += 1
+        my_time = time.strftime('%Y-%m-%d %H:%M', time.localtime(info.st_mtime))
+        print(str(counter) + '.  ' + str(my_time) + '  ' + file)
 
 def meta_tags(my_file):
     media_info = MediaInfo.parse(my_file)

@@ -41,6 +41,11 @@ def cli():
 @click.command()
 @click.argument('directory')
 def file_info(directory):
+    """
+    Mostly, kinda works
+    :param directory:
+    :return:
+    """
     if directory:
         file_list = os.listdir(directory)
     else:
@@ -58,16 +63,21 @@ def file_info(directory):
         my_group = grp.getgrgid(info.st_gid)[0]
         mime_type = magic.Magic(mime=True)
         try:
-            my_type = mime_type.from_file(file)
+            my_type = mime_type.from_file(directory + '/' + file)
         except IsADirectoryError:
             my_type = 'Directory'
 
         print('{:15}'.format(my_mode) + '{:12}'.format(my_user) + '{:10}'.format(my_group)
-              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(directory + '/' + file)
+              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(file)
               + '{:>20}'.format(my_type))
 
 
 def meta_tags(my_file):
+    """
+    Not ready for prime time
+    :param my_file:
+    :return:
+    """
     media_info = MediaInfo.parse(my_file)
     foo = media_info.to_json()
     parsed = json.loads(foo)

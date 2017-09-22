@@ -68,8 +68,8 @@ def file_info(directory):
             my_type = 'Directory'
 
         print('{:15}'.format(my_mode) + '{:12}'.format(my_user) + '{:10}'.format(my_group)
-              + '{:>15}'.format(my_size) + '{:>25}'.format(my_time) + '{:>20}'.format(file)
-              + '{:>20}'.format(my_type))
+              + '{:>15}'.format(my_size) + ' {:>20}'.format(my_time)
+              + '   {:<25}'.format(my_type) + '  {:<35}'.format(file))
 
 
 def meta_tags(my_file):
